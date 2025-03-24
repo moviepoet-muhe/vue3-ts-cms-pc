@@ -9,6 +9,7 @@
     <el-table
       :data="tree"
       border
+      default-expand-all
       style="width: 100%; margin-top: 12px;"
       row-key="id"
       :expand-row-keys="expandedRowKeys"
@@ -16,20 +17,26 @@
       <!-- <el-table-column prop="id" /> -->
       <!-- 表格中列定义 -->
       <el-table-column prop="name" label="名称" />
-      <el-table-column prop="type" label="类型">
+      <el-table-column prop="type" label="类型" width="80">
         <template #default="scope">
           <el-tag>{{ scope.row.type === 1 ? '菜单' : '按钮' }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="icon" label="图标" />
-      <el-table-column prop="rule" label="规则" />
-      <el-table-column prop="order" label="排序" />
-      <el-table-column prop="status" label="状态">
-        <template #default="scope">
-          <el-switch />
+      <el-table-column prop="icon" label="图标" width="60">
+        <template v-slot="scope">
+          <el-icon v-if="scope.row.icon">
+            <component :is="scope.row.icon" />
+          </el-icon>
         </template>
       </el-table-column>
-      <el-table-column prop="operations" label="操作">
+      <el-table-column prop="rule" label="规则" />
+      <el-table-column prop="order" label="排序" width="60" />
+      <el-table-column prop="status" label="状态" width="80">
+        <template #default="scope">
+          <el-switch :model-value="scope.row.status" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="operations" label="操作" width="160">
         <template #default="scope">
           <el-button size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
           <el-button
@@ -76,7 +83,7 @@
         </el-form-item>
         <el-form-item label="图标" :label-width="formLabelWidth">
           <el-input v-model="permission.icon" autocomplete="off" />
-          <el-icon>
+          <el-icon v-if="permission.icon">
             <component :is="permission.icon" />
           </el-icon>
         </el-form-item>

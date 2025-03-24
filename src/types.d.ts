@@ -33,6 +33,8 @@ interface UserInfo {
  */
 interface BaseUserInfoRes {
   userInfo: UserInfo
+  status: number
+  roles: Role[]
 }
 
 /**
@@ -54,4 +56,29 @@ interface Status {
   status: number
   message: string
   [key: string]: any
+}
+
+/**
+ * 角色
+ */
+interface Role {
+  id: string
+  name: string
+  description: string
+  status: boolean
+  permissions: (string|Permission)[]
+}
+
+/**
+ * 管理员
+ */
+interface Administrator {
+  id: string
+  username: string
+  password: string
+  nickname: string
+  phone: string
+  avatarUrl: string
+  roles: string[]
+  status: boolean
 }

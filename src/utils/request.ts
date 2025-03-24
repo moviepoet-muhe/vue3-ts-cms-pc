@@ -1,3 +1,6 @@
+import { ElMessage } from 'element-plus'
+import router from '@/router'
+
 // 二次封装 axios
 import axios from 'axios'
 
@@ -26,6 +29,12 @@ service.interceptors.request.use(
   },
   (error) => {
     // 对请求错误做些什么
+    // 提醒用户token过期
+    ElMessage.error('Token已过期，请重新登录')  // 使用 Element Plus 的提示组件
+    // 清除本地存储中的token
+    localStorage.removeItem('token')
+    // 跳转到登录页面
+    router.push('/login')
     return Promise.reject(error)
   },
 )

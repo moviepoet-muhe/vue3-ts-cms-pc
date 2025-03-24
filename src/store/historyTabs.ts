@@ -14,12 +14,12 @@ const useHistoryTabsStore = defineStore('historyTabs', {
     historyTabs: [
       {
         title: '工作台',
-        path: '/workbench',
+        path: '/workbench/index',
       },
-      {
-        title: '仪表盘',
-        path: '/dashboard',
-      },
+      // {
+      //   title: '仪表盘',
+      //   path: '/dashboard',
+      // },
     ] as HistoryTabsState[], // 访问历史的tab
   }),
   actions: {

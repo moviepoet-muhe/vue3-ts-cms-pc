@@ -13,6 +13,14 @@ export const login = (user: LoginUser) => request<any, LoginRes>({
 })
 
 /**
+ * 退出登录
+ */
+export const logout = () => request<any, Status>({
+  url: '/sessions',
+  method: 'DELETE',
+})
+
+/**
  * 查询登录用户的用户信息
  */
 export const getUserInfo = () => request<any, BaseUserInfoRes>({

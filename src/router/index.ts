@@ -17,6 +17,8 @@ router.beforeEach((
   to,
   // from,
 ) => {
+  console.log('to:::', to);
+  
   // to : 即将进入的路由对象
   // from : 即将离开的路由对象
   if (!store) {

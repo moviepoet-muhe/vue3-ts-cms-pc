@@ -3,6 +3,10 @@
   <el-container class="site-layout">
     <!-- 左侧导航栏 -->
     <el-aside width="200px">
+      <div class="logo">
+        <el-image src="/logo.png" style="width: 48px; height: 48px" />
+        <span>天天优选</span>
+      </div>
       <AsideMenu />
     </el-aside>
 
@@ -12,17 +16,17 @@
       <el-header style="text-align: right; font-size: 12px">
         <div class="toolbar">
           <!-- 下拉菜单 -->
-          <el-dropdown>
-            <el-image style="width: 32px; height: 32px" :src="'http://113.45.10.129:5945' + store.userInfo?.avatarUrl" />
+          <el-dropdown @command="handleCommand">
+            <el-image style="width: 32px; height: 32px" :src="store.userInfo?.avatarUrl" />
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item>View</el-dropdown-item>
                 <el-dropdown-item>Add</el-dropdown-item>
-                <el-dropdown-item>Delete</el-dropdown-item>
+                <el-dropdown-item command="logout">退出登录</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
-          <span>{{ store.userInfo?.nickname }}</span>
+          <span>{{ store.userInfo?.nickname }}({{ store.role?.name }})</span>
         </div>
       </el-header>
 
@@ -31,25 +35,50 @@
         <!-- 访问历史标签 -->
         <HistoryTabs />
         <!-- 主体内容 -->
-        <el-scrollbar>
-          <RouterView />
-        </el-scrollbar>
+        <RouterView />
       </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script lang="ts" setup>
+import { useRouter} from 'vue-router'
+import { logout } from '@/api/session'
 import AsideMenu from './components/aside-menu.vue'
 import HistoryTabs from './components/history-tabs.vue'
 import useUserStore from '@/store/user'
 
+const router = useRouter()
 const store = useUserStore()
+
+const handleCommand = async (command: string) => {
+  if (command === 'logout') {
+    // 发送请求，退出登录
+    await logout()
+    // 清除本地存储的 token
+    localStorage.removeItem('token')
+    // localStorage.clear()
+    // 清理 store 中保存的用户信息
+    store.reset()
+    // 跳转到登录页面
+    router.push('/login')
+  }
+}
 </script>
 
 <style scoped>
 .site-layout {
   height: 100vh;
+
+  .logo {
+    height: 60px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 .site-layout .el-header {
   position: relative;

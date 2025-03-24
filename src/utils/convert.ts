@@ -57,6 +57,28 @@ function convertToTree(flatData: TreeNode[]): TreeNode[] {
   return tree
 }
 
+/**
+ * 查找树中的所有叶子节点（支持多根节点树）
+ * @param nodes 树节点数组
+ * @returns 所有叶子节点数组
+ */
+function findLeafNodes(nodes: TreeNode[]): TreeNode[] {
+  const leaves: TreeNode[] = []
+  
+  nodes.forEach(node => {
+    // 当前节点是叶子节点
+    if (!node.children || node.children.length === 0) {
+      leaves.push(node)
+    } else {
+      // 递归处理子节点并合并结果
+      leaves.push(...findLeafNodes(node.children))
+    }
+  })
+  
+  return leaves
+}
+
 export {
-  convertToTree
+  convertToTree,
+  findLeafNodes,
 }

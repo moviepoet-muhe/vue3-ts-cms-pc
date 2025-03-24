@@ -41,9 +41,17 @@ router.beforeEach(async(
     if (!userStore) {
       userStore = useUserStore()
     }
-    if (!userStore.userInfo) {
+    if (!userStore.userInfo) { // 没有用户基本信息，则查询处理
       try {
+        // 查询数据，保存状态，并生成动态路由配置信息
         await userStore.update()
+        // 将生成的动态路由配置信息添加到 router 中
+        // 调用 router.addRoute() 动态添加路由信息
+        const dynamicRoutes = userStore.dynamicRoutes
+        dynamicRoutes.forEach((item: any) => {
+          router.addRoute(item)
+        })
+        return '/'
       } catch (error) {
         ElMessage.error('管理员信息查询异常，请重新登录!')
         return '/login'
