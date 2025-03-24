@@ -60,7 +60,10 @@ const generateDynamicRoutes = (permissions: Permission[]) => {
   return convertToTree(menuPermissions);
 }
 
-```bash
+// 按钮级权限控制示例（v-permission指令）
+<button v-permission="'add'">添加商品</button>
+```
+## 项目结构 🗂️
 
 
 ├── public              # 静态资源
