@@ -1,3 +1,5 @@
+// history-tabs.vue 历史标签组件 仓库
+
 import { defineStore } from 'pinia'
 
 export interface HistoryTabsState {
@@ -10,7 +12,14 @@ export interface HistoryTabsState {
  */
 const useHistoryTabsStore = defineStore('historyTabs', {
   state: () => ({
-    // activeName: '', // 当前激活的 tab 项的名称
+    /*
+      可以增加一个activeName,表示当前激活的 tab 项的名称， 
+      在el-tabs标记通过双向绑定 v-model="historyTabsStore.activeName" 
+      来实现历史tab标签激活与左侧菜单项绑定 
+    */
+
+    // activeName: '', 
+
     historyTabs: [
       {
         title: '工作台',
@@ -18,7 +27,7 @@ const useHistoryTabsStore = defineStore('historyTabs', {
       },
       // {
       //   title: '仪表盘',
-      //   path: '/dashboard',
+      //   path: '/workbench/dashboard',
       // },
     ] as HistoryTabsState[], // 访问历史的tab
   }),
@@ -29,8 +38,17 @@ const useHistoryTabsStore = defineStore('historyTabs', {
      * @returns 
      */
     addHistoryTab(tab: HistoryTabsState) {
-      // // 修改当前激活项 tab 的名称状态数据
+
+
+      /* 
+      可以增加一个activeName,表示当前激活的 tab 项的名称， 
+      在el-tabs标记通过双向绑定 v-model="historyTabsStore.activeName" 
+      来实现历史tab标签激活与左侧菜单项绑定  
+      */
+
+      // 修改当前激活项 tab 的名称状态数据
       // this.activeName = tab.path
+
       // 先判断当前添加的访问历史是否已在状态数据中存在
       // 如果不存在，再向数组中添加访问历史
       const has = this.historyTabs.some((item) => item.path === tab.path)

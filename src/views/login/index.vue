@@ -27,7 +27,7 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { type FormInstance } from 'element-plus'
-import { login } from '@/api/session'
+import { userLogin } from '@/api/session'
 import { ElMessage } from 'element-plus'
 import CryptoJS from 'crypto-js'
 
@@ -50,10 +50,16 @@ const user = ref<LoginUser>({
 // 表单校验规则
 const rules = {
   username: [
-    { required: true, message: '用户名必填!', trigger: 'blur'},
+    { required: true, message: '用户名必填!', trigger: 'blur' },
   ],
   password: [
-    { required: true, message: '密码必填!', trigger: 'blur'},
+    { required: true, message: '密码必填!', trigger: 'blur' },
+
+    // {
+    //   pattern: /^(?=.*[a-z])(?=.*[A-Z]).+$/,
+    //   message: '密码必须包含大小写字母',
+    //   trigger: 'blur'
+    // },
     // { min: 6, message: '密码长度至少为6位', trigger: 'blur' },
   ],
 }
@@ -66,8 +72,7 @@ onMounted(() => {
   const str = localStorage.getItem('user')
   if (str) {
     // 将密文解密
-    var origin  = CryptoJS.AES.decrypt(str, secret).toString(CryptoJS.enc.Utf8)
-    console.log('origin', origin);
+    var origin = CryptoJS.AES.decrypt(str, secret).toString(CryptoJS.enc.Utf8)
     // 还原用户名与密码
     const [username, password] = origin.split('::::')
     // 将用户名与密码回显到表单中
@@ -82,14 +87,13 @@ onMounted(() => {
 /**
  * 点击登录按钮，处理登录逻辑
  */
-const handleLogin = async() => {
+const handleLogin = async () => {
   try {
     // 调用表单组件实例暴露的 validate() 方法进行表单校验
     const result = await loginFormRef.value?.validate()
     if (result) {
       // 校验通过，发送网络请求，进行用户登录处理
-      const res = await login(user.value)
-      console.log('登录结果:', res);
+      const res = await userLogin(user.value)
       // 判断登录成功与失败
       if (res.status === 200) {
         // 登录成功，需要将登录用户的 token 保存到本地
@@ -112,7 +116,7 @@ const handleLogin = async() => {
       }
     }
   } catch (error) {
-    console.error('登录异常:', error)
+    ElMessage.error('表单校验失败，登录失败')
   }
 }
 </script>

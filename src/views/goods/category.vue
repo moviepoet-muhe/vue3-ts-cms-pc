@@ -1,11 +1,7 @@
 <template>
   <div class="goods-category">
-    <TablePro
-      :data-source="dataSource"
-      :columns="columns"
-      @remove="data => console.log('删除数据:', data)"
-      :pagination="false"
-    />
+    <TablePro :data-source="dataSource" :columns="columns" @remove="data => console.log('删除数据:', data)"
+      :pagination="false" />
   </div>
 </template>
 
@@ -42,13 +38,11 @@ const dataSource = [
 
 // 表定义
 const columns = [
-  {label: '日期', prop: 'date'},
-  {label: '名称', prop: 'name'},
-  {label: '地址', prop: 'address'},
-  {label: '创建时间', prop: 'createdAt'},
+  { label: '日期', prop: 'date' },
+  { label: '名称', prop: 'name' },
+  { label: '地址', prop: 'address' },
+  { label: '创建时间', prop: 'createdAt' },
 ]
 </script>
 
-<style lang="less" scoped>
-
-</style>
+<style lang="less" scoped></style>

@@ -1,3 +1,4 @@
+<!-- 角色权限管理 -->
 <template>
   <div class="permission">
     <div class="btns">
@@ -6,14 +7,8 @@
       <el-button type="primary" @click="handleExpandAll(false)">全部折叠</el-button>
     </div>
     <!-- 表格 -->
-    <el-table
-      :data="tree"
-      border
-      default-expand-all
-      style="width: 100%; margin-top: 12px;"
-      row-key="id"
-      :expand-row-keys="expandedRowKeys"
-    >
+    <el-table :data="tree" border style="width: 100%; margin-top: 12px;" row-key="id"
+      :expand-row-keys="expandedRowKeys">
       <!-- <el-table-column prop="id" /> -->
       <!-- 表格中列定义 -->
       <el-table-column prop="name" label="名称" />
@@ -36,14 +31,11 @@
           <el-switch :model-value="scope.row.status" />
         </template>
       </el-table-column>
+      <!-- 操作 -->
       <el-table-column prop="operations" label="操作" width="160">
         <template #default="scope">
           <el-button size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-          <el-button
-            size="small"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-          >
+          <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">
             删除
           </el-button>
         </template>
@@ -54,17 +46,8 @@
     <el-dialog v-model="dialogFormVisible" title="编辑菜单权限" width="500" :close-on-click-modal="false">
       <el-form :model="permission" :rules="validateRules" ref="formRef">
         <el-form-item label="父级" :label-width="formLabelWidth">
-          <el-tree-select
-            v-model="permission.pid"
-            :data="tree"
-            :props="{label: 'name'}"
-            value-key="id"
-            :render-after-expand="false"
-            default-expand-all
-            clearable
-            placeholder="顶层"
-            check-strictly
-          />
+          <el-tree-select v-model="permission.pid" :data="tree" :props="{ label: 'name' }" value-key="id"
+            :render-after-expand="false" clearable placeholder="顶层" check-strictly />
         </el-form-item>
         <el-form-item label="名称" :label-width="formLabelWidth" prop="name">
           <el-input v-model="permission.name" autocomplete="off" />
@@ -156,7 +139,6 @@ const validateRules = {
 const findAllPermissions = async () => {
   try {
     const res = await getAllPermissions()
-    // console.log('所有菜单权限数据:', res)
     permissions.value = res.list
     // 将权限列表数据由扁平结构转换为树形结构
     tree.value = convertToTree(permissions.value)
@@ -185,9 +167,9 @@ const handleExpandAll = (isExpand: boolean) => {
  * 新增菜单权限时，permission 对象中没有 id。
  * 修改菜单权限时，permission 对象中是存在已知的 id 数据。
  */
-const handleConfirm = async() => {
+const handleConfirm = async () => {
   // console.log('表单数据:', permission.value)
-  
+
   try {
     // 点击确定按钮，先进行表单校验
     const res = await formRef.value?.validate()
@@ -215,7 +197,7 @@ const handleConfirm = async() => {
       }
     }
   } catch (error) {
-    console.error('表单提交异常:', error)    
+    console.error('表单提交异常:', error)
   }
 }
 
@@ -223,7 +205,7 @@ const handleConfirm = async() => {
  * 处理表格操作列中的修改按钮逻辑
  */
 const handleEdit = (index: number, row: any) => {
-  console.log('行索引:', index, ', 行数据:', row)
+
   // 打开编辑对话框
   dialogFormVisible.value = true
   // 将表单中绑定的数据设置为当前需要修改的权限行数据
@@ -235,7 +217,7 @@ const handleEdit = (index: number, row: any) => {
 /**
  * 处理表格操作列中的删除按钮逻辑
  */
- const handleDelete = async(index: number, row: any) => {
+const handleDelete = async (index: number, row: any) => {
   console.log('行索引:', index, ', 行数据:', row)
 
   try {

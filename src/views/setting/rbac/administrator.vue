@@ -5,19 +5,14 @@
     </div>
 
     <!-- 表格 -->
-    <TablePro
-      :columns="columns"
-      :request-api="getAllAdministrators"
-      @update="handleAdminUpdate"
-      @remove="handleAdminRemove"
-      ref="tableRef"
-    >
+    <TablePro :columns="columns" :request-api="getAllAdministrators" @update="handleAdminUpdate"
+      @remove="handleAdminRemove" ref="tableRef">
       <template #avatarUrl="{ row }">
         <img :src="row.avatarUrl" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
-      </template>  
+      </template>
       <template #roles="{ row }">
-        {{ row.roles?.map((role: Role) => role.name).join(', ') }}
-      </template>   
+        {{row.roles?.map((role: Role) => role.name).join(', ')}}
+      </template>
     </TablePro>
 
     <!-- 编辑(添加/修改)管理员的对话框 -->
@@ -33,32 +28,22 @@
           <el-input v-model="admin.nickname" autocomplete="off" />
         </el-form-item>
         <el-form-item label="头像" :label-width="80" prop="avatarUrl">
-          <el-upload
-            class="avatar-uploader"
-            :action="uploadAction"
-            :headers="headers"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload"
-            name="avatar"
-          >
+          <el-upload class="avatar-uploader" :action="uploadAction" :headers="headers" :show-file-list="false"
+            :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload" name="avatar">
             <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-            <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+            <el-icon v-else class="avatar-uploader-icon">
+              <Plus />
+            </el-icon>
           </el-upload>
         </el-form-item>
         <el-form-item label="电话" :label-width="80" prop="phone">
           <el-input v-model="admin.phone" autocomplete="off" />
         </el-form-item>
         <el-form-item label="角色" :label-width="80" prop="roles">
-          <el-select
-            v-model="admin.roles"
-            placeholder="请选择角色"
-            clearable
-            multiple
-          >
+          <el-select v-model="admin.roles" placeholder="请选择角色" clearable multiple>
             <el-option v-for="role in roles" :key="role.id" :label="role.name" :value="role.id" />
           </el-select>
-      </el-form-item>
+        </el-form-item>
         <el-form-item label="状态" :label-width="80">
           <el-switch v-model="admin.status" />
         </el-form-item>
@@ -132,7 +117,7 @@ const handleAdminUpdate = (row: any) => {
 /**
  * 点击删除按钮
  */
- const handleAdminRemove = async (row: any) => {
+const handleAdminRemove = async (row: any) => {
   try {
     const res = await removeAdministrator(row.id)
     if (res.status === 200) {
@@ -146,9 +131,9 @@ const handleAdminUpdate = (row: any) => {
 /**
  * 处理对话框“确定”按钮点击逻辑
  */
- const handleConfirm = async () => {
+const handleConfirm = async () => {
   // console.log('管理员数据:', admin.value);
-  
+
   try {
     // 表单校验
     await formRef.value?.validate()

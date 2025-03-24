@@ -4,7 +4,7 @@ import request from '@/utils/request'
  * 查询所有管理员信息
  * @returns 
  */
-export const getAllAdministrators = ({page = 1, pageSize = 10}) => request({
+export const getAllAdministrators = ({ page = 1, pageSize = 10 }) => request({
   url: '/administrators',
   params: {
     page,

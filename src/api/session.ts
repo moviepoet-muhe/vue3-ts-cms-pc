@@ -6,7 +6,7 @@ import request from '@/utils/request'
 /**
  * 用户登录
  */
-export const login = (user: LoginUser) => request<any, LoginRes>({
+export const userLogin = (user: LoginUser) => request<any, LoginRes>({
   url: '/sessions',
   method: 'POST',
   data: user,

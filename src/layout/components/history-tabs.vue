@@ -1,20 +1,11 @@
+<!-- 历史标签组件 -->
 <template>
   <div class="history-tabs">
     <!-- 标签容器 -->
-    <el-tabs
-      v-model="editableTabsValue"
-      type="card"
-      @tab-change="handleTabChange"
-      @tab-remove="handleTabRemove"
-    >
+    <el-tabs v-model="editableTabsValue" type="card" @tab-change="handleTabChange" @tab-remove="handleTabRemove">
       <!-- 标签项 -->
-      <el-tab-pane
-        v-for="(item, index) in store.historyTabs"
-        :key="item.path"
-        :label="item.title"
-        :name="item.path"
-        :closable="index !== 0"
-      >
+      <el-tab-pane v-for="(item, index) in historyTabsStore.historyTabs" :key="item.path" :label="item.title"
+        :name="item.path" :closable="index !== 0">
         <!-- 标签页面内容 -->
       </el-tab-pane>
     </el-tabs>
@@ -32,7 +23,7 @@ const router = useRouter()
 const route = useRoute()
 
 // 获取保存访问历史的 store
-const store = useHistoryTabsStore()
+const historyTabsStore = useHistoryTabsStore()
 
 // 绑定 tab 选中标签名称
 const editableTabsValue = ref('')
@@ -41,10 +32,9 @@ const editableTabsValue = ref('')
 watch(
   () => route.path,
   (
-    newRoute, 
+    newRoute,
     // oldRoute,
   ) => {
-    // console.log('路由变化了', oldRoute, ' -> ', newRoute)
     editableTabsValue.value = newRoute
   },
   {
@@ -57,7 +47,6 @@ watch(
  * @param tabPath 标签页的路由路径
  */
 const handleTabChange = (tabPath: string) => {
-  // console.log('标签页切换了', tabPath)
   // 跳转到对应路由
   router.push(tabPath)
 }
@@ -67,22 +56,21 @@ const handleTabChange = (tabPath: string) => {
  * @param tabPath 标签页的路由路径
  */
 const handleTabRemove = (tabPath: string) => {
-  // console.log('标签页删除了', tabPath)
   // 当前删除项是否为激活项
   if (tabPath === editableTabsValue.value) {
     // 如果是，则向后或向前切换一个标签页面
     // 获取当前删除的是否为数组中最后一项
-    const index = store.historyTabs.findIndex(item => item.path === tabPath)
-    if (index === store.historyTabs.length - 1) { // 是最后一项，则向前切换
-      editableTabsValue.value = store.historyTabs[index - 1].path
+    const index = historyTabsStore.historyTabs.findIndex(item => item.path === tabPath)
+    if (index === historyTabsStore.historyTabs.length - 1) { // 是最后一项，则向前切换
+      editableTabsValue.value = historyTabsStore.historyTabs[index - 1].path
     } else { // 不是最后一项，则向后切换
-      editableTabsValue.value = store.historyTabs[index + 1].path
+      editableTabsValue.value = historyTabsStore.historyTabs[index + 1].path
     }
     router.push(editableTabsValue.value)
   }
-  
+
   // 删除对应的历史记录
-  store.removeHistoryTab(tabPath)
+  historyTabsStore.removeHistoryTab(tabPath)
 }
 </script>
 

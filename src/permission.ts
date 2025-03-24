@@ -1,9 +1,9 @@
 /**
  * 用于进行页面访问权限的拦截处理
  */
-import router from './router'
+import router from '@/router'
 import { ElMessage } from 'element-plus'
-import useUserStore from './store/user'
+import useUserStore from '@/store/user'
 
 // 白名单中的路由是不需要登录即可直接访问的页面
 const whiteList = ['/login']
@@ -14,19 +14,16 @@ let userStore: any
 /**
  * 在全局前置守卫中进行权限拦截处理
  */
-router.beforeEach(async(
-  to, 
-  // from,
-) => {
+router.beforeEach(async (
   // to: 即将进入的目标路由对象
   // from: 正在离开的当前路由对象
+  to,
+) => {
   // 本地用户token信息
   const token = localStorage.getItem('token')
-  // 判断即将访问的页面是否在白名单中，如果不在
-  // 则需要判断用户是否登录
+  // 判断即将访问的页面是否在白名单中，如果不在则需要判断用户是否登录
   if (!whiteList.includes(to.path)) {
-    // 判断用户是否登录，通常使用 token，即查看
-    // 本地是否保存了登录成功的用户 token 信息
+    // 判断用户是否登录，通常使用 token，即查看本地是否保存了登录成功的用户 token 信息
     if (!token) {
       // token 不存在，未登录，则跳转到登录页面
       ElMessage.error('请先登录!!!')

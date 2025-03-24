@@ -4,14 +4,8 @@
       <el-button type="primary" @click="dialogFormVisible = true">添加</el-button>
     </div>
 
-    <TablePro
-      :columns="columns"
-      :request-api="getAllRoles"
-      :pagination="false"
-      @update="handleRoleUpdate"
-      @remove="handleRoleRemove"
-      ref="tableRef"
-    >
+    <TablePro :columns="columns" :request-api="getAllRoles" :pagination="false" @update="handleRoleUpdate"
+      @remove="handleRoleRemove" ref="tableRef">
       <template #permissions="scope">
         <el-text line-clamp="2">
           {{ calcPermissionNames(scope.row.permissions) }}
@@ -57,16 +51,8 @@
         <div style="font-size: 18px; font-weight: 700;">角色授权</div>
       </template>
       <template #default>
-        <el-tree
-          style="max-width: 600px"
-          :data="permissionTree"
-          show-checkbox
-          node-key="id"
-          :default-checked-keys="[]"
-          :props="{label: 'name'}"
-          default-expand-all
-          ref="treeRef"
-        />
+        <el-tree style="max-width: 600px" :data="permissionTree" show-checkbox node-key="id" :default-checked-keys="[]"
+          :props="{ label: 'name' }" default-expand-all ref="treeRef" />
       </template>
       <template #footer>
         <div style="display: flex;">
@@ -99,13 +85,13 @@ const defaultRole = () => ({
  * 表格列定义
  */
 const columns = [
-  {label: '序号', type: 'index', width: 60},
-  {label: '名称', prop: 'name', width: 120},
-  {label: '权限', prop: 'permissions', custom: true},
-  {label: '描述', prop: 'description', width: 200},
-  {label: '创建时间', prop: 'createdAt', custom: true, width: 200},
-  {label: '状态', prop: 'status', custom: true, width: 80},
-  {label: '授权', prop: 'grant', custom: true, width: 80},
+  { label: '序号', type: 'index', width: 60 },
+  { label: '名称', prop: 'name', width: 120 },
+  { label: '权限', prop: 'permissions', custom: true },
+  { label: '描述', prop: 'description', width: 200 },
+  { label: '创建时间', prop: 'createdAt', custom: true, width: 200 },
+  { label: '状态', prop: 'status', custom: true, width: 80 },
+  { label: '授权', prop: 'grant', custom: true, width: 80 },
 ]
 
 // 表格对象引用
@@ -198,7 +184,7 @@ const treeRef = ref()
 /**
  * 查询所有的菜单权限
  */
-const fetchAllPermissions = async() => {
+const fetchAllPermissions = async () => {
   try {
     // 查找所有权限，得到扁平数据
     const res = await getAllPermissions()
@@ -207,7 +193,7 @@ const fetchAllPermissions = async() => {
     permissionTree.value = convertToTree(res.list)
     console.log(permissionTree.value)
   } catch (error) {
-    
+
   }
 }
 fetchAllPermissions()
@@ -250,7 +236,7 @@ const handleRoleGrant = (row: any) => {
 /**
  * 授权确定按钮点击
  */
-const handleGrantOk = async() => {
+const handleGrantOk = async () => {
   // 获取树形控件中勾选项和半选项数据信息
   const checkedKeys = treeRef.value.getCheckedKeys()
   const halfCheckedKeys = treeRef.value.getHalfCheckedKeys()
@@ -267,7 +253,7 @@ const handleGrantOk = async() => {
       tableRef.value.fetchData()
     }
   } catch (error) {
-    
+
   }
 }
 

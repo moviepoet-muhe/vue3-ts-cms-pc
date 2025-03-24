@@ -7,6 +7,7 @@
         <el-image src="/logo.png" style="width: 48px; height: 48px" />
         <span>天天优选</span>
       </div>
+      <!-- 左侧菜单 -->
       <AsideMenu />
     </el-aside>
 
@@ -26,15 +27,16 @@
               </el-dropdown-menu>
             </template>
           </el-dropdown>
+          <!-- 显示用户信息 -->
           <span>{{ store.userInfo?.nickname }}({{ store.role?.name }})</span>
         </div>
       </el-header>
 
       <!-- 主体内容区域 -->
       <el-main>
-        <!-- 访问历史标签 -->
+        <!-- 访问历史组件 -->
         <HistoryTabs />
-        <!-- 主体内容 -->
+        <!-- 主体内容 路由出口-->
         <RouterView />
       </el-main>
     </el-container>
@@ -42,7 +44,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter} from 'vue-router'
+import { useRouter } from 'vue-router'
 import { logout } from '@/api/session'
 import AsideMenu from './components/aside-menu.vue'
 import HistoryTabs from './components/history-tabs.vue'
@@ -80,21 +82,26 @@ const handleCommand = async (command: string) => {
     align-items: center;
   }
 }
+
 .site-layout .el-header {
   position: relative;
   background-color: var(--el-color-primary-light-7);
   color: var(--el-text-color-primary);
 }
+
 .site-layout .el-aside {
   color: var(--el-text-color-primary);
   background: var(--el-color-primary-light-8);
 }
+
 .site-layout .el-menu {
   border-right: none;
 }
+
 .site-layout .el-main {
   padding: 12px;
 }
+
 .site-layout .toolbar {
   display: inline-flex;
   align-items: center;

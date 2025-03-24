@@ -64,7 +64,7 @@ function convertToTree(flatData: TreeNode[]): TreeNode[] {
  */
 function findLeafNodes(nodes: TreeNode[]): TreeNode[] {
   const leaves: TreeNode[] = []
-  
+
   nodes.forEach(node => {
     // 当前节点是叶子节点
     if (!node.children || node.children.length === 0) {
@@ -74,7 +74,7 @@ function findLeafNodes(nodes: TreeNode[]): TreeNode[] {
       leaves.push(...findLeafNodes(node.children))
     }
   })
-  
+
   return leaves
 }
 

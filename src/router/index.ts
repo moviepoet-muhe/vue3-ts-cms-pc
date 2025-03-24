@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import routes from './routes'
+import routes from '@/router/routes'
 import useHistoryTabsStore, { type HistoryTabsState } from '@/store/historyTabs'
 
 const router = createRouter({
@@ -8,21 +8,20 @@ const router = createRouter({
 })
 
 // 历史 tabs 的仓库
-let store: any
+let historyTabsStore: any
 
 const whiteList = ['/login', '/']
 
 // 全局前置守卫
 router.beforeEach((
   to,
-  // from,
 ) => {
-  console.log('to:::', to);
-  
   // to : 即将进入的路由对象
   // from : 即将离开的路由对象
-  if (!store) {
-    store = useHistoryTabsStore()
+  // 如果历史 tabs 的仓库不存在数据
+  if (!historyTabsStore) {
+
+    historyTabsStore = useHistoryTabsStore()
   }
 
   if (!whiteList.includes(to.path)) {
@@ -31,7 +30,7 @@ router.beforeEach((
       path: to.path,
     }
     // 向历史记录中添加当前历史标签
-    store.addHistoryTab(currHistory)
+    historyTabsStore.addHistoryTab(currHistory)
   }
 })
 

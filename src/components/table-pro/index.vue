@@ -1,17 +1,8 @@
 <template>
   <div class="table-pro">
     <!-- 表格 -->
-    <el-table
-      :data="tableData"
-      style="width: 100%"
-      border
-      stripe
-    >
-      <el-table-column
-        v-for="(col, index) in columns"
-        :key="index"
-        v-bind="col"
-      >
+    <el-table :data="tableData" style="width: 100%" border stripe>
+      <el-table-column v-for="(col, index) in columns" :key="index" v-bind="col">
         <!-- 插槽，用于自定义列的渲染，并将组件中的数据通过插槽向父组件传递(作用域插槽) -->
         <template v-if="col.custom" v-slot:default="scope">
           <slot :name="col.prop" v-bind="scope"></slot>
@@ -27,18 +18,9 @@
     </el-table>
 
     <!-- 分页器 -->
-    <el-pagination
-      v-if="pagination !== false"
-      background
-      layout="prev, pager, next, sizes, ->, jumper, total"
-      :total="total"
-      size="small"
-      :page-sizes="[5, 10, 20, 50, 100]"
-      style="margin-top: 12px;"
-      v-model:page-size="pageSize"
-      v-model:current-page="page"
-      @change="handlePageChange"
-    />
+    <el-pagination v-if="pagination !== false" background layout="prev, pager, next, sizes, ->, jumper, total"
+      :total="total" size="small" :page-sizes="[5, 10, 20, 50, 100]" style="margin-top: 12px;"
+      v-model:page-size="pageSize" v-model:current-page="page" @change="handlePageChange" />
   </div>
 </template>
 
@@ -76,7 +58,7 @@ const emit = defineEmits<{
 /**
  * 删除逻辑
  */
-const handleRemove = async(row: any) => {
+const handleRemove = async (row: any) => {
   try {
     // 删除前的二次确认
     await ElMessageBox.confirm(
@@ -91,7 +73,7 @@ const handleRemove = async(row: any) => {
     // 确认删除
     emit('remove', row)
   } catch (error) {
-    
+
   }
 }
 
@@ -111,10 +93,10 @@ const total = ref(0)
 const page = ref(1)
 const pageSize = ref(10)
 // 查询数据
-const fetchData = async() => {
+const fetchData = async () => {
   try {
     if (props.requestApi) {
-      const result: any = await props.requestApi({page: page.value, pageSize: pageSize.value})
+      const result: any = await props.requestApi({ page: page.value, pageSize: pageSize.value })
       tableData.value = result.list
       total.value = result.total
     }
@@ -151,6 +133,4 @@ defineExpose({
 })
 </script>
 
-<style lang="less" scoped>
-
-</style>
+<style lang="less" scoped></style>

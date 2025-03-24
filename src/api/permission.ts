@@ -6,7 +6,7 @@ import request from '@/utils/request'
 /**
  * 查询所有菜单权限数据
  */
-export const getAllPermissions = () => request<any, {list: Permission[]}>({
+export const getAllPermissions = () => request<any, { list: Permission[] }>({
   url: '/permissions',
 })
 

@@ -5,10 +5,15 @@ import { convertToTree } from '@/utils/convert'
 
 // 使用 import.meta.glob() 函数，查找出所有的 views 文件夹下的 .vue 文件模块
 const modules = import.meta.glob('@/views/**/*.vue')
-console.log('modules:::', modules)
+
 
 
 const useUserStore = defineStore('user', () => {
+
+  /**
+   * state 状态数据
+   */
+
   // 用户基本信息
   const userInfo = ref<UserInfo>()
   // 用户角色
@@ -19,12 +24,12 @@ const useUserStore = defineStore('user', () => {
   const dynamicRoutes = ref<any>()
 
   /**
-   * 根据登录用户的角色权限，动态生成其所能访问到的路由配置信息
+   * action 根据登录用户的角色权限，动态生成其所能访问到的路由配置信息
    */
   const generateDynamicRoutes = (permissions: Permission[]) => {
     // 从所有权限中筛选出 type 为 1 的权限，即菜单权限 （type 为2的是按钮功能权限）
     let menuPermissions: any = permissions?.filter(item => item.type === 1)
-    // 将 menuPerssions 数组中的元素结构转换为类似路由配置的结构
+    // 将 menuPermissions 数组中的元素结构转换为类似路由配置的结构
     menuPermissions = menuPermissions?.map((item: Permission) => {
       return {
         ...item,
@@ -37,15 +42,14 @@ const useUserStore = defineStore('user', () => {
         },
       }
     })
-  
+
     // 将扁平数据结构转树形结构
     const routes = convertToTree(menuPermissions)
-    // console.log('动态生成的路由信息:', routes)
     dynamicRoutes.value = routes
   }
 
   /**
-   * 查询用户基本信息，更新状态数据
+   * action 查询用户基本信息，更新状态数据
    */
   const update = async () => {
     try {

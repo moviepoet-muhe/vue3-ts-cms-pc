@@ -1,3 +1,5 @@
+// 类型声明文件
+
 /**
  * 登录用户
  */
@@ -66,7 +68,7 @@ interface Role {
   name: string
   description: string
   status: boolean
-  permissions: (string|Permission)[]
+  permissions: (string | Permission)[]
 }
 
 /**

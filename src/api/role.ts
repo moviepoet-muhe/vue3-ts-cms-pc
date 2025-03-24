@@ -4,7 +4,7 @@ import request from '@/utils/request'
  * 查询所有角色信息
  * @returns 
  */
-export const getAllRoles = () => request<any, {list: Role[]}>({
+export const getAllRoles = () => request<any, { list: Role[] }>({
   url: '/roles'
 })
 
