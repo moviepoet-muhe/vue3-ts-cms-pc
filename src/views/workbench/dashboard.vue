@@ -1,6 +1,5 @@
 <template>
   <div class="dashboard">
-
     <div style="width: 600px; height: 600px;" ref="lineRef"></div>
     <div style="width: 600px; height: 600px;" ref="pieRef"></div>
   </div>
