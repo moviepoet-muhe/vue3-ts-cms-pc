@@ -5,6 +5,7 @@
       <el-button type="primary" @click="dialogFormVisible = true">添加</el-button>
       <el-button type="primary" @click="handleExpandAll(true)">全部展开</el-button>
       <el-button type="primary" @click="handleExpandAll(false)">全部折叠</el-button>
+      <el-button type="primary" @click="handleExport">导出文件</el-button>
     </div>
     <!-- 表格 -->
     <el-table :data="tree" border style="width: 100%; margin-top: 12px;" row-key="id"
@@ -91,6 +92,7 @@ import { ref } from 'vue'
 import { addPermission, getAllPermissions, removePermission, updatePermission } from '@/api/permission'
 import { convertToTree } from '@/utils/convert'
 import { ElMessage, ElMessageBox, type FormInstance } from 'element-plus'
+import { utils, writeFileXLSX } from 'xlsx';
 
 // 初始化菜单权限数据
 const initPermissionData = () => ({
@@ -261,6 +263,16 @@ const handleDelete = async (index: number, row: any) => {
   //     //   message: 'Delete canceled',
   //     // })
   //   })
+}
+// 导出Excel
+const handleExport = () => {
+  // 根据需要导出的数据，转换生成为工作表
+  const ws = utils.json_to_sheet(permissions.value as any)
+  // 创建工作簿并添加工作表
+  const wb = utils.book_new()
+  utils.book_append_sheet(wb, ws, "权限信息统计表")
+  // 将工作簿保存为Excel文件
+  writeFileXLSX(wb, `权限信息统计表-${new Date().toISOString()}.xlsx`)
 }
 </script>
 

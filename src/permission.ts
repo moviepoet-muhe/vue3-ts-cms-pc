@@ -5,12 +5,15 @@ import router from '@/router'
 import { ElMessage } from 'element-plus'
 import useUserStore from '@/store/user'
 
+import useHistoryTabsStore, { type HistoryTabsState } from '@/store/historyTabs'
+
 // 白名单中的路由是不需要登录即可直接访问的页面
-const whiteList = ['/login']
+const whiteList = ['/login', '/']
 
 // 用户仓库
 let userStore: any
-
+// 历史 tabs 的仓库
+let historyTabsStore: any
 /**
  * 在全局前置守卫中进行权限拦截处理
  */
@@ -59,4 +62,24 @@ router.beforeEach(async (
       return '/'
     }
   }
+
+  // 如果历史 tabs 的仓库不存在数据
+  if (!historyTabsStore) {
+
+    historyTabsStore = useHistoryTabsStore()
+  }
+
+  if (!whiteList.includes(to.path)) {
+    const currHistory: HistoryTabsState = {
+      title: to.meta?.title as string,
+      path: to.path,
+    }
+    // 向历史记录中添加当前历史标签
+    historyTabsStore.addHistoryTab(currHistory)
+  }
 })
+
+
+
+
+

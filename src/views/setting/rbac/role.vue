@@ -2,6 +2,7 @@
   <div class="role">
     <div class="btns" style="margin-bottom: 12px;">
       <el-button type="primary" @click="dialogFormVisible = true">添加</el-button>
+      <el-button type="primary" @click="handleExport">导出文件</el-button>
     </div>
 
     <TablePro :columns="columns" :request-api="getAllRoles" :pagination="false" @update="handleRoleUpdate"
@@ -74,6 +75,8 @@ import { ref, watch } from 'vue'
 import { ElMessage, type FormInstance } from 'element-plus'
 import { getAllPermissions } from '@/api/permission'
 import { convertToTree, findLeafNodes } from '@/utils/convert'
+import { utils, writeFileXLSX } from 'xlsx'
+
 
 const defaultRole = () => ({
   name: '',
@@ -264,6 +267,21 @@ const handleCheckAll = (checked: boolean) => {
   const checkedKeys = checked ? allPermissions.value?.map(item => item.id) : []
   treeRef.value.setCheckedKeys(checkedKeys)
 }
+
+
+// 导出文件
+const handleExport = () => {
+  // 获取所有角色数据
+  const roles = tableRef.value?.tableData || []
+  // 根据需要导出的数据，转换生成为工作表
+  const ws = utils.json_to_sheet(roles)
+  // 创建工作簿并添加工作表
+  const wb = utils.book_new()
+  utils.book_append_sheet(wb, ws, "角色信息统计表")
+  // 将工作簿保存为Excel文件
+  writeFileXLSX(wb, `角色信息统计表-${new Date().toISOString()}.xlsx`)
+}
+
 </script>
 
 <style lang="less" scoped>
